@@ -12,6 +12,7 @@ import { LikedPosts } from "@/_root/pages";
 import { useUserContext } from "@/context/AuthContext";
 import { useGetUserById } from "@/lib/react-query/queries";
 import { GridPostList, Loader } from "@/components/shared";
+import { Suspense } from "react";
 
 interface StabBlockProps {
   value: string | number;
@@ -43,13 +44,16 @@ const Profile = () => {
     <div className="profile-container">
       <div className="profile-inner_container">
         <div className="flex xl:flex-row flex-col max-xl:items-center flex-1 gap-7">
-          <img
-            src={
-              currentUser.imageUrl || "/assets/icons/profile-placeholder.svg"
-            }
-            alt="profile"
-            className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
-          />
+          <Suspense fallback={<Loader />}>
+            <img
+              src={
+                currentUser.imageUrl || "/assets/icons/profile-placeholder.svg"
+              }
+              alt="profile"
+              className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
+            />
+          </Suspense>
+
           <div className="flex flex-col flex-1 justify-between md:mt-2">
             <div className="flex flex-col w-full">
               <h1 className="text-center xl:text-left h3-bold md:h1-semibold w-full">
@@ -78,12 +82,14 @@ const Profile = () => {
                 className={`h-12 bg-dark-4 px-5 text-light-1 flex-center gap-2 rounded-lg ${
                   user.id !== currentUser.$id && "hidden"
                 }`}>
-                <img
-                  src={"/assets/icons/edit.svg"}
-                  alt="edit"
-                  width={20}
-                  height={20}
-                />
+                <Suspense fallback={<Loader />}>
+                  <img
+                    src={"/assets/icons/edit.svg"}
+                    alt="edit"
+                    width={20}
+                    height={20}
+                  />
+                </Suspense>
                 <p className="flex whitespace-nowrap small-medium">
                   Edit Profile
                 </p>
@@ -105,12 +111,14 @@ const Profile = () => {
             className={`profile-tab rounded-l-lg ${
               pathname === `/profile/${id}` && "!bg-dark-3"
             }`}>
-            <img
-              src={"/assets/icons/posts.svg"}
-              alt="posts"
-              width={20}
-              height={20}
-            />
+            <Suspense fallback={<Loader />}>
+              <img
+                src={"/assets/icons/posts.svg"}
+                alt="posts"
+                width={20}
+                height={20}
+              />
+            </Suspense>
             Posts
           </Link>
           <Link
@@ -118,17 +126,19 @@ const Profile = () => {
             className={`profile-tab rounded-r-lg ${
               pathname === `/profile/${id}/liked-posts` && "!bg-dark-3"
             }`}>
-            <img
-              src={"/assets/icons/like.svg"}
-              alt="like"
-              width={20}
-              height={20}
-            />
+            <Suspense fallback={<Loader />}>
+              <img
+                src={"/assets/icons/like.svg"}
+                alt="like"
+                width={20}
+                height={20}
+              />
+            </Suspense>
             Liked Posts
           </Link>
         </div>
       )}
-
+      {/* todo */}
       <Routes>
         <Route
           index

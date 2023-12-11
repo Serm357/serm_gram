@@ -1,8 +1,9 @@
-import { useCallback, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 
 import { Button } from "@/components/ui";
 import { convertFileToUrl } from "@/lib/utils";
+import { Loader } from ".";
 
 type FileUploaderProps = {
   fieldChange: (files: File[]) => void;
@@ -38,18 +39,22 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
       {fileUrl ? (
         <>
           <div className="flex flex-1 justify-center w-full p-5 lg:p-10">
-            <img src={fileUrl} alt="image" className="file_uploader-img" />
+            <Suspense fallback={<Loader />}>
+              <img src={fileUrl} alt="image" className="file_uploader-img" />
+            </Suspense>
           </div>
           <p className="file_uploader-label">Click or drag photo to replace</p>
         </>
       ) : (
         <div className="file_uploader-box ">
-          <img
-            src="/assets/icons/file-upload.svg"
-            width={96}
-            height={77}
-            alt="file upload"
-          />
+          <Suspense fallback={<Loader />}>
+            <img
+              src="/assets/icons/file-upload.svg"
+              width={96}
+              height={77}
+              alt="file upload"
+            />
+          </Suspense>
 
           <h3 className="base-medium text-light-2 mb-2 mt-6">
             Drag photo here

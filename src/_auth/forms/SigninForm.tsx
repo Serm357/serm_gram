@@ -3,7 +3,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
@@ -12,6 +19,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { SigninValidation } from "@/lib/validation";
 import { useSignInAccount } from "@/lib/react-query/queries";
 import { useUserContext } from "@/context/AuthContext";
+import { Suspense } from "react";
 
 const SigninForm = () => {
   const { toast } = useToast();
@@ -34,7 +42,7 @@ const SigninForm = () => {
 
     if (!session) {
       toast({ title: "Login failed. Please try again." });
-      
+
       return;
     }
 
@@ -45,8 +53,8 @@ const SigninForm = () => {
 
       navigate("/");
     } else {
-      toast({ title: "Login failed. Please try again.", });
-      
+      toast({ title: "Login failed. Please try again." });
+
       return;
     }
   };
@@ -54,7 +62,15 @@ const SigninForm = () => {
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
-        <img src="/assets/images/logo.svg" alt="logo" />
+        <Suspense fallback={<Loader />}>
+          <img
+            src="/assets/images/serm_logo.png"
+            alt="logo"
+            width={150}
+            height={150}
+            className="rounded-md"
+          />
+        </Suspense>
 
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
           Log in to your account

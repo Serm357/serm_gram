@@ -1,7 +1,8 @@
-import { useCallback, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 
 import { convertFileToUrl } from "@/lib/utils";
+import { Loader } from ".";
 
 type ProfileUploaderProps = {
   fieldChange: (files: File[]) => void;
@@ -33,11 +34,14 @@ const ProfileUploader = ({ fieldChange, mediaUrl }: ProfileUploaderProps) => {
       <input {...getInputProps()} className="cursor-pointer" />
 
       <div className="cursor-pointer flex-center gap-4">
-        <img
-          src={fileUrl || "/assets/icons/profile-placeholder.svg"}
-          alt="image"
-          className="h-24 w-24 rounded-full object-cover object-top"
-        />
+        <Suspense fallback={<Loader />}>
+          <img
+            src={fileUrl || "/assets/icons/profile-placeholder.svg"}
+            alt="image"
+            className="h-24 w-24 rounded-full object-cover object-top"
+          />
+        </Suspense>
+
         <p className="text-primary-500 small-regular md:bbase-semibold">
           Change profile photo
         </p>

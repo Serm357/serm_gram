@@ -1,9 +1,10 @@
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 
-import { PostStats } from "@/components/shared";
+import { Loader, PostStats } from "@/components/shared";
 import { multiFormatDateString } from "@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
+import { Suspense } from "react";
 
 type PostCardProps = {
   post: Models.Document;
@@ -19,14 +20,16 @@ const PostCard = ({ post }: PostCardProps) => {
       <div className="flex-between">
         <div className="flex items-center gap-3">
           <Link to={`/profile/${post.creator.$id}`}>
-            <img
-              src={
-                post.creator?.imageUrl ||
-                "/assets/icons/profile-placeholder.svg"
-              }
-              alt="creator"
-              className="w-12 lg:h-12 rounded-full"
-            />
+            <Suspense fallback={<Loader />}>
+              <img
+                src={
+                  post.creator?.imageUrl ||
+                  "/assets/icons/profile-placeholder.svg"
+                }
+                alt="creator"
+                className="w-12 lg:h-12 rounded-full"
+              />
+            </Suspense>
           </Link>
 
           <div className="flex flex-col">
@@ -69,11 +72,13 @@ const PostCard = ({ post }: PostCardProps) => {
           </ul>
         </div>
 
-        <img
-          src={post.imageUrl || "/assets/icons/profile-placeholder.svg"}
-          alt="post image"
-          className="post-card_img"
-        />
+        <Suspense fallback={<Loader />}>
+          <img
+            src={post.imageUrl || "/assets/icons/profile-placeholder.svg"}
+            alt="post image"
+            className="post-card_img"
+          />
+        </Suspense>
       </Link>
 
       <PostStats post={post} userId={user.id} />

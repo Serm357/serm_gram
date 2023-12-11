@@ -1,6 +1,8 @@
 import { Outlet, Navigate } from "react-router-dom";
 
 import { useUserContext } from "@/context/AuthContext";
+import { Suspense } from "react";
+import { Loader } from "@/components/shared";
 
 export default function AuthLayout() {
   const { isAuthenticated } = useUserContext();
@@ -15,11 +17,13 @@ export default function AuthLayout() {
             <Outlet />
           </section>
 
-          <img
-            src="/assets/images/side-img.svg"
-            alt="logo"
-            className="hidden xl:block h-screen w-1/2 object-cover bg-no-repeat"
-          />
+          <Suspense fallback={<Loader />}>
+            <img
+              src="/assets/images/side-img.png"
+              alt="logo"
+              className="hidden xl:block h-screen w-1/2 object-cover bg-no-repeat"
+            />
+          </Suspense>
         </>
       )}
     </>
