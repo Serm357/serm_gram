@@ -29,7 +29,7 @@ module.exports = {
         "dark-4": "#B0B0B0",
         "light-1": "#333333",
         "light-2": "#4C4C4C",
-        "light-3": "#D4D4E2",
+        "light-3": "#000000",
         "light-4": "#B5B5CC",
       },
       screens: {
